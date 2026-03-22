@@ -1,4 +1,5 @@
 ---
+name: plan-phase
 description: Reads the active plan, finds the next phase, and generates a granular, test-driven implementation guide.
 disable-model-invocation: true
 ---

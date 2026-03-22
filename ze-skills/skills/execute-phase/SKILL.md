@@ -1,4 +1,5 @@
 ---
+name: execute-phase
 description: Executes the granular tasks of the current phase, runs verification, and updates the plan.
 disable-model-invocation: true
 ---

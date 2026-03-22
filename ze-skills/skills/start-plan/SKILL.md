@@ -1,4 +1,5 @@
 ---
+name: start-plan
 description: Analyzes a feature request, establishes constraints, and creates a high-level, prioritized roadmap.
 disable-model-invocation: true
 ---
