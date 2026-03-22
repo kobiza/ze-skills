@@ -1,10 +1,10 @@
 ---
-name: start-plan
-description: Analyzes a feature request, establishes constraints, and creates a high-level, prioritized roadmap.
+name: plan-feature
+description: Analyzes a feature request, establishes constraints, and creates a high-level, prioritized multi-phase roadmap.
 disable-model-invocation: true
 ---
 
-You are executing the "/start-plan" protocol. Your job is to act as the Architect. Do NOT write application code.
+You are executing the "/plan-feature" protocol. Your job is to act as the Architect. Do NOT write application code. This skill is for multi-phase features — for small single tasks, use `/plan-task` instead.
 
 1. **Clarity Check:** Before doing anything else, evaluate whether the feature request contains enough information to produce a meaningful roadmap. A request is sufficiently detailed if it has: a clear goal, implied scope boundaries, and at least a hint of constraints or success criteria.
    - **If underspecified:** Ask 2-6 targeted questions. Cover as many of these as are relevant: goal & success criteria, who the end user is, scope boundaries (what's explicitly out of scope), tech/framework constraints, known risks or blockers, priority ordering. Wait for my answers before proceeding to Step 2.
