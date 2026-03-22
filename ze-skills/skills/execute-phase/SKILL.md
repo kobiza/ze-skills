@@ -6,11 +6,13 @@ disable-model-invocation: true
 
 You are executing the "/execute-phase" protocol. Your job is to act as the Engineer and write the code.
 
-1. **Read the Instructions:** Read `.plan/[feature-name]-plan.md` and find the detailed, atomic tasks drafted for the current active phase.
-2. **Execute:** Implement the tasks step-by-step. Remember to follow the global "Ask User Question" rule to get approval before modifying files.
-3. **The 3-Strike Error Protocol:** As you write code and run verification commands, if you encounter the exact same error 3 times:
+1. **Resolve Active Plan:** Read `.plan/.active` to get the current plan name (e.g. `user-auth`).
+   - If the file is missing or empty, tell me: *"No active plan is set. Run `/list-plans` to select one."* Then stop.
+2. **Read the Instructions:** Read `.plan/[active-name]/plan.md` and find the detailed, atomic tasks drafted for the current active phase.
+3. **Execute:** Implement the tasks step-by-step. Remember to follow the global "Ask User Question" rule to get approval before modifying files.
+4. **The 3-Strike Error Protocol:** As you write code and run verification commands, if you encounter the exact same error 3 times:
    - **STOP executing immediately.** Do not blindly retry.
-   - Log the error, what you tried, and your hypothesis into `.plan/[feature-name]-findings.md`.
+   - Log the error, what you tried, and your hypothesis into `.plan/[active-name]/findings.md`.
    - Ask me for help: *"I've hit a roadblock and logged the error in the findings file. How would you like me to proceed?"*
-4. **Verify & Update:** Once the code is written, run the verification commands defined in the plan. If they pass, update `.plan/[feature-name]-plan.md` by changing the phase's checkbox to `[x]`.
-5. **Prompt Next Step:** Inform me the phase is complete and ask: *"Phase complete and verified. Would you like to review the app, or should we run `/plan-phase` for the next item?"*
+5. **Verify & Update:** Once the code is written, run the verification commands defined in the plan. If they pass, update `.plan/[active-name]/plan.md` by changing the phase's checkbox to `[x]`.
+6. **Prompt Next Step:** Inform me the phase is complete and ask: *"Phase complete and verified. Would you like to review the app, or should we run `/plan-phase` for the next item?"*

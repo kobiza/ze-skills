@@ -1,0 +1,30 @@
+---
+name: list-plans
+description: Lists all existing plans with their progress, and lets you focus on one to make it active.
+disable-model-invocation: true
+---
+
+You are executing the "/list-plans" protocol.
+
+1. **Scan Plans:** List all subdirectories inside `.plan/` — each one is a plan. If there are none, tell me: *"No plans found. Start one with `/start-plan`."* Then stop.
+2. **Read Active:** Check `.plan/.active` to see which plan is currently focused (if any).
+3. **Show Progress:** For each plan folder, read its `plan.md` and count:
+   - `[x]` checkboxes = completed phases
+   - `[ ]` checkboxes = remaining phases
+4. **Display Summary:** Print a table like this:
+
+   ```
+   Plans:
+   ──────────────────────────────────────────
+     Name              Progress    Status
+   ──────────────────────────────────────────
+   * user-auth         2/4 ████░░  Active
+     shopping-cart     0/3 ░░░░░░
+     payment-flow      3/3 ██████  Complete
+   ──────────────────────────────────────────
+   * = currently active
+   ```
+
+5. **Ask to Focus:** Ask me: *"Which plan would you like to focus on? (Type the name, or press Enter to keep the current active plan.)"*
+6. **Set Active:** Write the chosen plan name as a single line into `.plan/.active`.
+7. **Confirm:** Tell me: *"Now focused on **[chosen-name]**. Run `/plan-phase` to continue."*
