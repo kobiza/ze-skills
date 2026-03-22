@@ -1,6 +1,6 @@
 ---
 name: plan-phase
-description: Reads the active plan, finds the next phase, and generates a granular, test-driven implementation guide.
+description: Reads the active plan, finds the next unchecked phase, generates a granular implementation guide, and loops for review before handing off to execute-phase.
 disable-model-invocation: true
 ---
 
@@ -15,4 +15,7 @@ You are executing the "/plan-phase" protocol. Your job is to act as the Systems 
    - **Atomic Tasks:** Break the work down into bite-sized (2-5 minute) steps.
    - **Exact Files:** For every task, explicitly list the file paths to create or modify (e.g., `Modify: src/api/users.ts:10-25`).
    - **Verification:** Include the exact terminal commands needed to test/verify the phase (e.g., `npm run test:auth`).
-5. **Pause & Ask:** Stop. Tell me: _"I have drafted the granular, step-by-step tasks for **[active-name]** in the plan file. Please review it in your IDE. If the technical approach and file structures look good, run `/execute-phase`."_
+5. **Review Loop:** Print an inline summary of what was drafted: the phase name, acceptance criteria, number of atomic tasks, and the verification command(s). Then ask:
+   *"Does this look right? Reply with: **approve** to proceed to `/execute-phase`, or **change: [your feedback]** to request revisions."*
+   - **If `change`:** Apply the requested edits to the appended section in `plan.md`, re-print the summary, and ask again. Repeat until resolved.
+   - **If `approve`:** Confirm *"Tasks approved. Run `/execute-phase` to implement this phase."* and stop.
