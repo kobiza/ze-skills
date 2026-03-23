@@ -8,20 +8,18 @@ You are executing the "/list-plans" protocol.
 
 1. **Scan Plans:** List all subdirectories inside `.plan/` — each one is a plan. If there are none, tell me: *"No plans found. Start one with `/plan-task` (small task) or `/plan-feature` (multi-phase feature)."* Then stop.
 2. **Read Active:** Check `.plan/.active` to see which plan is currently focused (if any).
-3. **Show Progress:** For each plan folder, read its `plan.md` and count:
-   - `[x]` checkboxes = completed phases
-   - `[ ]` checkboxes = remaining phases
+3. **Show Progress:** For each plan folder, read its `plan.md` and count the rows in the `## Progress` table by status: `done`, `ready-for-dev`, `backlog`.
 4. **Display Summary:** Print a table like this:
 
    ```
    Plans:
-   ──────────────────────────────────────────
-     Name              Progress    Status
-   ──────────────────────────────────────────
-   * user-auth         2/4 ████░░  Active
-     shopping-cart     0/3 ░░░░░░
-     payment-flow      3/3 ██████  Complete
-   ──────────────────────────────────────────
+   ──────────────────────────────────────────────────
+     Name              Progress                Status
+   ──────────────────────────────────────────────────
+   * user-auth         2 done · 1 ready · 1 backlog  Active
+     shopping-cart     0 done · 0 ready · 3 backlog
+     payment-flow      3 done · 0 ready · 0 backlog  Complete
+   ──────────────────────────────────────────────────
    * = currently active
    ```
 

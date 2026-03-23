@@ -1,6 +1,6 @@
 ---
 name: plan-phase
-description: Reads the active plan, finds the next unchecked phase, generates a granular implementation guide, and loops for review before handing off to execute.
+description: Reads the active plan, finds the next backlog phase, generates a granular implementation guide, and loops for review before handing off to execute.
 disable-model-invocation: true
 model: claude-opus-4-6
 ---
@@ -17,7 +17,8 @@ You are executing the "/plan-phase" protocol. Your job is to act as the Systems 
      - `No, choose a different plan`
    - **If "No":** Invoke `/choose-plan`, then resume from step 1.
 2. **Locate the Plan:** Read `.plan/[active-name]/plan.md` and `.plan/[active-name]/findings.md` to refresh your context.
-3. **Identify Target:** Find the very first unchecked phase `[ ]` in the checklist.
+3. **Identify Target:** Look at the `## Progress` table and find the first phase with status `backlog`.
+   - If no `backlog` phase exists, tell me: *"All phases are already planned. Run `/execute` to start the next ready phase."* and stop.
 4. **Draft the Granular Plan (JIT):** Append a detailed implementation guide for THIS PHASE ONLY directly below the checklist in the plan file. It MUST include:
    - **Acceptance Criteria:** 2-3 bullet points of what defines success.
    - **Atomic Tasks:** Break the work down into bite-sized (2-5 minute) steps.
