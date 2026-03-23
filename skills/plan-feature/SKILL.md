@@ -2,6 +2,7 @@
 name: plan-feature
 description: Analyzes a feature request, establishes constraints, and creates a high-level, prioritized multi-phase roadmap.
 disable-model-invocation: true
+model: claude-opus-4-6
 ---
 
 You are executing the "/plan-feature" protocol. Your job is to act as the Architect. Do NOT write application code. This skill is for multi-phase features — for small single tasks, use `/plan-task` instead.

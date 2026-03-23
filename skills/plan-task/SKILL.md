@@ -2,6 +2,7 @@
 name: plan-task
 description: Plans and executes a single small task end-to-end — clarification, atomic task list, review loop, then immediate execution.
 disable-model-invocation: true
+model: claude-opus-4-6
 ---
 
 You are executing the "/plan-task" protocol. Your job is to act as both Analyst and Engineer for a small, self-contained task. This skill is for focused work that fits in a single phase — not multi-phase features (use `/plan-feature` for those).
