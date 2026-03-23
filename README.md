@@ -61,7 +61,7 @@ Use `/plan-task` for focused, single-phase work. After the review loop, type `ex
 Two paths after `/plan-feature`:
 
 - **Explicit**: run `/plan-phase` to review granular tasks before each phase, then `execute`.
-- **Express**: run `/execute` directly — it auto-plans the phase inline (auto-approved) and executes immediately.
+- **Express**: run `/execute` directly — it detects the phase isn't planned yet, asks for confirmation, then plans and executes immediately.
 
 ### Utilities
 
