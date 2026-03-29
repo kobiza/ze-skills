@@ -1,0 +1,14 @@
+{
+  "name": "ze-skills",
+  "owner": {
+    "name": "Kobi Zakut",
+    "github": "kobiza"
+  },
+  "plugins": [
+    {
+      "name": "ltz",
+      "source": "./ltz",
+      "description": "Structured planning and execution workflow — plan, detail phases, and execute with human-in-the-loop review gates."
+    }
+  ]
+}

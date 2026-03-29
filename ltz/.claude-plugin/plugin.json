@@ -1,0 +1,8 @@
+{
+  "name": "ltz",
+  "version": "1.0.0",
+  "description": "Structured planning and execution workflow — brainstorm, plan, detail phases, and execute with human-in-the-loop review gates.",
+  "author": {
+    "name": "Kobi Zakut"
+  }
+}

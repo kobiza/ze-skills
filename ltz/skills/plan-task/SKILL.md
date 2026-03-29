@@ -5,7 +5,7 @@ disable-model-invocation: true
 model: claude-opus-4-6
 ---
 
-You are executing the "/plan-task" protocol. Your job is to act as both Analyst and Engineer for a small, self-contained task. This skill is for focused work that fits in a single phase — not multi-phase features (use `/plan-feature` for those).
+You are executing the "/ltz:plan-task" protocol. Your job is to act as both Analyst and Engineer for a small, self-contained task. This skill is for focused work that fits in a single phase — not multi-phase features (use `/ltz:plan-feature` for those).
 
 1. **Clarity Check:** Evaluate whether the task request contains enough information to produce a concrete implementation plan. A request is sufficiently detailed if it has: a clear goal, implied scope boundaries, and at least a hint of success criteria.
    - **If underspecified:** Use the `AskUserQuestion` tool to ask 2-6 targeted questions one at a time covering: goal & success criteria, scope boundaries (what's out), tech/framework constraints, known risks or blockers. Wait for answers before proceeding.
@@ -36,7 +36,7 @@ You are executing the "/plan-task" protocol. Your job is to act as both Analyst 
 
    - **If `change`:** Ask for their feedback using `AskUserQuestion`, apply edits to `plan.md`, re-print, and ask again. Repeat until resolved.
    - **If `abort`:** Confirm *"Task plan cancelled."* and stop (do not delete files).
-   - **If `approve`:** Update `## Progress` in `plan.md` to `Status: \`ready-for-dev\``. Confirm *"Plan saved. Run `/execute` when you're ready."* and stop.
+   - **If `approve`:** Update `## Progress` in `plan.md` to `Status: \`ready-for-dev\``. Confirm *"Plan saved. Run `/ltz:execute` when you're ready."* and stop.
    - **If `execute`:** Update `## Progress` in `plan.md` to `Status: \`ready-for-dev\``. Confirm *"Plan approved — executing now."* then immediately proceed to step 7.
 
 7. **Execute:** Implement the atomic tasks step-by-step. Follow the global "Ask User Question" rule to get approval before modifying files.

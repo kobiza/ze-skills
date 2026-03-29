@@ -1,34 +1,40 @@
 # ze-skills
 
-Agent skills by [Kobi Zakut](https://github.com/kobiza), compatible with the [`npx skills`](https://github.com/vercel-labs/skills) CLI.
+A Claude Code plugin by [Kobi Zakut](https://github.com/kobiza) — structured planning and execution workflow with human-in-the-loop review gates.
 
 ## Installation
 
 ```bash
-# Install all skills
-npx skills add kobiza/ze-skills
+# Install the ltz plugin
+claude --plugin-dir ./ltz
 
-# Install a specific skill
-npx skills add kobiza/ze-skills --skill <skill-name>
+# Or via npx skills
+npx skills add kobiza/ze-skills
 ```
 
-## Skills
+## Plugin: ltz
 
-### Planning & execution
-
-| Skill | Role | Description |
-|-------|------|-------------|
-| `/plan-task` | Analyst | Plans a single small task — clarification, atomic task list, then a review loop. |
-| `/plan-feature` | Architect | Analyzes a feature request and creates a high-level, prioritized multi-phase roadmap, then a review loop. |
-| `/plan-phase` | Systems Analyst | Reads the active plan, finds the next unchecked phase, and drafts a granular atomic task list with verification commands, then a review loop. |
-| `/execute` | Engineer | Executes the current plan or phase step-by-step. If the phase hasn't been planned yet, auto-plans it inline (auto-approved) before executing. |
-
-### Utilities
+### Primary skills
 
 | Skill | Description |
 |-------|-------------|
-| `/list-plans` | Lists all plans with progress indicators and lets you switch the active plan. |
-| `/cleanup-plan` | Deletes a plan folder and clears the active pointer if needed. |
+| `/ltz:plan [request]` | Smart router — auto-detects task vs feature and runs the matching planning flow. |
+| `/ltz:go` | Continues the active plan to completion — loops plan-phase and execute until done. |
+| `/ltz:update [changes]` | Re-analyzes the active plan with new context or changed requirements. |
+| `/ltz:list` | Lists all plans with progress indicators and lets you switch the active plan. |
+| `/ltz:cleanup` | Deletes a plan folder and clears the active pointer if needed. |
+
+### Fine-grained control
+
+These are the building blocks that primary skills orchestrate. Use them directly when you want explicit control over individual steps.
+
+| Skill | Role | Description |
+|-------|------|-------------|
+| `/ltz:plan-task` | Analyst | Plans a single small task — clarification, atomic task list, then a review loop. |
+| `/ltz:plan-feature` | Architect | Analyzes a feature request and creates a high-level, prioritized multi-phase roadmap, then a review loop. |
+| `/ltz:plan-phase` | Systems Analyst | Reads the active plan, finds the next unchecked phase, and drafts a granular atomic task list with verification commands, then a review loop. |
+| `/ltz:execute` | Engineer | Executes the current plan or phase step-by-step. If the phase hasn't been planned yet, auto-plans it inline (auto-approved) before executing. |
+| `/ltz:choose-plan` | — | Internal helper — switch active plan (used by other skills). |
 
 ## Workflow
 
@@ -40,34 +46,40 @@ Every planning skill ends with a **review loop**. You respond with one of:
 | `approve` | Save the plan and stop — nothing runs automatically |
 | `execute` | Accept the plan and immediately start executing |
 
-### Small task
+### Plan — `/ltz:plan`
 
 ```
-/plan-task → review loop → execute
+/ltz:plan [request] → auto-classifies → plan → review loop
 ```
 
-Use `/plan-task` for focused, single-phase work. After the review loop, type `execute` to run it.
+Auto-detects whether the request is a small task or multi-phase feature. Creates the plan, then stops for your review.
 
-### Large feature
+### Go — `/ltz:go`
 
 ```
-/plan-feature → review loop
-                    ↓
-              /plan-phase → review loop → execute
-                    ↑                       ↓
-               (next phase)           (phase done)
+/ltz:go → reads active plan → plan-phase → review → execute → next phase → done
 ```
 
-Two paths after `/plan-feature`:
+Drives an existing plan to completion. Loops plan-phase and execute for each remaining phase with review gates.
 
-- **Explicit**: run `/plan-phase` to review granular tasks before each phase, then `execute`.
-- **Express**: run `/execute` directly — it detects the phase isn't planned yet, asks for confirmation, then plans and executes immediately.
+### Fine-grained control
+
+```
+/ltz:plan-feature → review loop
+                        ↓
+                  /ltz:plan-phase → review loop → execute
+                        ↑                           ↓
+                   (next phase)               (phase done)
+```
+
+Two paths after `/ltz:plan-feature`:
+
+- **Explicit**: run `/ltz:plan-phase` to review granular tasks before each phase, then `execute`.
+- **Express**: run `/ltz:execute` directly — it detects the phase isn't planned yet, asks for confirmation, then plans and executes immediately.
 
 ### Utilities
 
-`/list-plans` and `/cleanup-plan` are available at any point in the flow.
-
-[View interactive diagram on Excalidraw →](https://excalidraw.com/#json=m9_ye9_fsTQRB58UTOzfW,58at-6s7XUQrgz-wys0IjQ)
+`/ltz:list` and `/ltz:cleanup` are available at any point in the flow.
 
 ## Plan folder structure
 
