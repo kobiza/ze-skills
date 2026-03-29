@@ -37,11 +37,11 @@ The prompt body is the full instruction set Claude receives when the skill is in
 These skills implement a structured, human-in-the-loop planning loop. The primary API:
 
 ```
-/ltz:plan [request] → auto-classifies → plan → review loop
-/ltz:go             → resumes active plan → phase detail → execute → done
+/ltz:ltz-plan [request] → auto-classifies → plan → review loop
+/ltz:ltz-go             → resumes active plan → phase detail → execute → done
 ```
 
-Fine-grained skills (`/ltz:plan-feature`, `/ltz:plan-task`, `/ltz:plan-phase`, `/ltz:execute`) are available for explicit control over individual steps.
+Fine-grained skills (`/ltz:ltz-plan-feature`, `/ltz:ltz-plan-task`, `/ltz:ltz-plan-phase`, `/ltz:ltz-execute`) are available for explicit control over individual steps.
 
 **Plan state is stored in `.plan/` inside the target project** (not this repo):
 
@@ -54,13 +54,13 @@ Fine-grained skills (`/ltz:plan-feature`, `/ltz:plan-task`, `/ltz:plan-phase`, `
 ```
 
 Key behaviors:
-- `/ltz:plan`: auto-detects task vs feature, scaffolds `.plan/<name>/`, drafts plan — then pauses for human review.
-- `/ltz:go`: drives active plan to completion via plan-phase → execute loop with review gates.
-- `/ltz:update`: re-analyzes active plan with changed requirements, preserving completed work.
-- `/ltz:list`: scans `.plan/`, shows progress table, lets user switch active plan.
-- `/ltz:cleanup`: deletes a plan folder, clears `.plan/.active` if needed.
-- `/ltz:plan-phase`: reads active plan, finds first unchecked `[ ]` phase, appends granular atomic tasks + verification commands JIT — then pauses.
-- `/ltz:execute`: implements tasks step by step; on 3 identical errors, stops and logs to `findings.md`; marks phase `[x]` on success.
+- `/ltz:ltz-plan`: auto-detects task vs feature, scaffolds `.plan/<name>/`, drafts plan — then pauses for human review.
+- `/ltz:ltz-go`: drives active plan to completion via plan-phase → execute loop with review gates.
+- `/ltz:ltz-update`: re-analyzes active plan with changed requirements, preserving completed work.
+- `/ltz:ltz-list`: scans `.plan/`, shows progress table, lets user switch active plan.
+- `/ltz:ltz-cleanup`: deletes a plan folder, clears `.plan/.active` if needed.
+- `/ltz:ltz-plan-phase`: reads active plan, finds first unchecked `[ ]` phase, appends granular atomic tasks + verification commands JIT — then pauses.
+- `/ltz:ltz-execute`: implements tasks step by step; on 3 identical errors, stops and logs to `findings.md`; marks phase `[x]` on success.
 
 ## Adding or modifying skills
 

@@ -1,22 +1,22 @@
 ---
-name: update
+name: ltz-update
 description: Re-analyzes the active plan with new context or changed requirements, updating Goal, Scope, Phases/Tasks, and Progress while preserving completed work.
 disable-model-invocation: true
 model: claude-opus-4-6
 ---
 
-You are executing the "/ltz:update" protocol. Your job is to act as the Architect and re-analyze an existing plan in light of new information or changed requirements. Do NOT write application code.
+You are executing the "/ltz:ltz-update" protocol. Your job is to act as the Architect and re-analyze an existing plan in light of new information or changed requirements. Do NOT write application code.
 
 1. **Resolve Active Plan:** Read `.plan/.active` to get the current plan name.
    - If the file is missing or empty, tell me: *"No active plan is set."* Then use `AskUserQuestion` with the question *"Would you like to choose a plan to update?"* and options:
      - `Yes, run /choose-plan`
      - `No, cancel`
-   - **If yes:** Invoke `/ltz:choose-plan` and resume from step 1 after it completes.
+   - **If yes:** Invoke `/ltz:ltz-choose-plan` and resume from step 1 after it completes.
    - **If no:** Stop.
    - If a plan name is found, use `AskUserQuestion` with the question *"Active plan: **[name]**. Continue with this plan?"* and options:
      - `Yes, continue`
      - `No, choose a different plan`
-   - **If "No":** Invoke `/ltz:choose-plan`, then resume from step 1.
+   - **If "No":** Invoke `/ltz:ltz-choose-plan`, then resume from step 1.
 
 2. **Read the Plan:** Read `.plan/[active-name]/plan.md` and `.plan/[active-name]/findings.md`. Print the full contents of `plan.md` inline so the user can see the current state.
 
@@ -33,7 +33,7 @@ You are executing the "/ltz:update" protocol. Your job is to act as the Architec
 6. **Re-draft the Plan:** Update `plan.md` following the appropriate flow based on the plan type detected in step 3. **Preserve all completed work** — phases/tasks marked `[x]` or with status `done` MUST remain unchanged.
 
    **If Feature Plan (multi-phase):**
-   Update the plan following the same structure as `/ltz:plan` (feature path):
+   Update the plan following the same structure as `/ltz:ltz-plan` (feature path):
    - **Goal:** Update the 1-2 sentence description if the goal has changed.
    - **Scope:** Update "In Scope" and "Out of Scope" bullet points to reflect the new requirements.
    - **Phases:** Update the markdown checklist. You may add new `[ ]` phases, remove or rename `[ ]` (backlog/ready-for-dev) phases, or reorder them. For each phase, include its MoSCoW priority and dependencies. **Do NOT modify `[x]` phases** — they are complete.
@@ -41,7 +41,7 @@ You are executing the "/ltz:update" protocol. Your job is to act as the Architec
    - **Constraint:** Keep phases high-level. Do NOT write granular implementation details.
 
    **If Task Plan (single task):**
-   Update the plan following the same structure as `/ltz:plan` (task path):
+   Update the plan following the same structure as `/ltz:ltz-plan` (task path):
    - **Goal:** Update the 1-2 sentence description if the goal has changed.
    - **Acceptance Criteria:** Update the 2-3 bullet points defining success.
    - **Atomic Tasks:** Update the bite-sized steps. For each task, explicitly list the file paths to create or modify. **Do NOT modify tasks already marked as complete.**
@@ -56,5 +56,5 @@ You are executing the "/ltz:update" protocol. Your job is to act as the Architec
 
    - **If `change`:** Ask for their feedback using `AskUserQuestion`, apply edits to `plan.md`, re-print, and ask again. Repeat until resolved.
    - **If `abort`:** Restore `plan.md` to its original content (undo all changes). Confirm *"Changes discarded."* and stop.
-   - **If `approve`:** Confirm *"Plan updated. Run `/ltz:go` to execute, or `/ltz:plan-phase` to detail the next phase."* and stop.
+   - **If `approve`:** Confirm *"Plan updated. Run `/ltz:ltz-go` to execute, or `/ltz:ltz-plan-phase` to detail the next phase."* and stop.
    - **If `execute`:** Confirm *"Plan updated — starting first phase now."* then immediately run the plan-phase + execute flow for the first ready phase inline.

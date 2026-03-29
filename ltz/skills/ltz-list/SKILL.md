@@ -1,12 +1,12 @@
 ---
-name: list
+name: ltz-list
 description: Lists all existing plans with their progress, and lets you focus on one to make it active.
 disable-model-invocation: true
 ---
 
-You are executing the "/ltz:list" protocol.
+You are executing the "/ltz:ltz-list" protocol.
 
-1. **Scan Plans:** List all subdirectories inside `.plan/` — each one is a plan. If there are none, tell me: *"No plans found. Start one with `/ltz:plan` or `/ltz:go`."* Then stop.
+1. **Scan Plans:** List all subdirectories inside `.plan/` — each one is a plan. If there are none, tell me: *"No plans found. Start one with `/ltz:ltz-plan` or `/ltz:ltz-go`."* Then stop.
 2. **Read Active:** Check `.plan/.active` to see which plan is currently focused (if any).
 3. **Show Progress:** For each plan folder, read its `plan.md` and count the rows in the `## Progress` table by status: `done`, `ready-for-dev`, `backlog`.
 4. **Display Summary:** Print a table like this:
@@ -25,4 +25,4 @@ You are executing the "/ltz:list" protocol.
 
 5. **Ask to Focus:** Use `AskUserQuestion` with the question *"Which plan would you like to focus on?"* and one option per plan name, plus a `Keep current` option if a plan is already active.
 6. **Set Active:** Write the chosen plan name as a single line into `.plan/.active`.
-7. **Confirm:** Tell me: *"Now focused on **[chosen-name]**. Run `/ltz:go` to continue, or `/ltz:update` to revise it."*
+7. **Confirm:** Tell me: *"Now focused on **[chosen-name]**. Run `/ltz:ltz-go` to continue, or `/ltz:ltz-update` to revise it."*
