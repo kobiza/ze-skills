@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 description: Analyzes a feature request, establishes constraints, and creates a high-level, prioritized multi-phase roadmap.
 ---
 

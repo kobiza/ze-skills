@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 description: Interactively select the active plan from all available plans. Used standalone or invoked by other skills when switching context.
 ---
 

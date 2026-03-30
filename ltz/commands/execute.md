@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 description: Executes all ready-for-dev phases of the active plan sequentially.
 ---
 

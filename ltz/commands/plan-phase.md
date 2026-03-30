@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 description: Reads the active plan, finds the next backlog phase, generates a granular implementation guide, and loops for review before handing off to execute.
 ---
 

@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 description: Plans and executes a single small task end-to-end — clarification, atomic task list, review loop, then immediate execution.
 ---
 
