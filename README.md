@@ -4,13 +4,51 @@ A Claude Code plugin by [Kobi Zakut](https://github.com/kobiza) — structured p
 
 ## Installation
 
-```bash
-# Install the ltz plugin
-claude --plugin-dir ./ltz
+**1. Add the marketplace** (one-time):
 
-# Or via npx skills
-npx skills add kobiza/ze-skills
+In Claude Code, run:
 ```
+/plugin marketplace add kobiza/ze-skills
+```
+
+**2. Install the plugin:**
+```
+/plugin install ltz@ze-skills
+/reload-plugins
+```
+
+**3. Verify** — type `/ltz:` in Claude Code and you should see all commands in autocomplete.
+
+## Uninstall
+
+```
+/plugin uninstall ltz@ze-skills
+/reload-plugins
+```
+
+## Local development
+
+To work on the plugin locally and test changes without publishing:
+
+**1. Clone the repo:**
+```bash
+git clone https://github.com/kobiza/ze-skills.git
+cd ze-skills
+```
+
+**2. Point Claude Code at the local plugin directory** by adding this to your `~/.claude/settings.json`:
+```json
+{
+  "pluginDirectories": ["/absolute/path/to/ze-skills/ltz"]
+}
+```
+
+**3. Reload after each change:**
+```
+/reload-plugins
+```
+
+Changes to `.md` files take effect immediately on the next `/reload-plugins` — no reinstall needed during development.
 
 ## Plugin: ltz
 
