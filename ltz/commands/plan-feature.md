@@ -1,11 +1,8 @@
 ---
-name: ltz-plan-feature
 description: Analyzes a feature request, establishes constraints, and creates a high-level, prioritized multi-phase roadmap.
-disable-model-invocation: true
-model: claude-opus-4-6
 ---
 
-You are executing the "/ltz:ltz-plan-feature" protocol. Your job is to act as the Architect. Do NOT write application code. This skill is for multi-phase features — for small single tasks, use `/ltz:ltz-plan-task` instead.
+You are executing the "/ltz:plan-feature" protocol. Your job is to act as the Architect. Do NOT write application code. This skill is for multi-phase features — for small single tasks, use `/ltz:plan-task` instead.
 
 1. **Clarity Check:** Before doing anything else, evaluate whether the feature request contains enough information to produce a meaningful roadmap. A request is sufficiently detailed if it has: a clear goal, implied scope boundaries, and at least a hint of constraints or success criteria.
    - **If underspecified:** Use the `AskUserQuestion` tool to ask 2-6 targeted questions one at a time. Cover as many as are relevant: goal & success criteria, who the end user is, scope boundaries (what's explicitly out of scope), tech/framework constraints, known risks or blockers, priority ordering. Wait for my answers before proceeding to Step 2.
@@ -41,6 +38,6 @@ You are executing the "/ltz:ltz-plan-feature" protocol. Your job is to act as th
    - `abort — cancel`
 
    - **If `change`:** Ask for their feedback using `AskUserQuestion`, apply the edits to `plan.md`, re-print the updated roadmap, and ask again. Repeat until resolved.
-   - **If `approve`:** Confirm *"Roadmap approved. Run `/ltz:ltz-plan-phase` to detail the first phase, or `/ltz:ltz-execute` to start immediately."* and stop.
+   - **If `approve`:** Confirm *"Roadmap approved. Run `/ltz:plan-phase` to detail the first phase, or `/ltz:execute` to start immediately."* and stop.
    - **If `execute`:** Confirm *"Roadmap approved — starting first phase now."* then immediately run the plan-phase + execute flow for the first phase inline.
    - **If `abort`:** Confirm *"Plan creation cancelled."* and stop (do not delete any files).

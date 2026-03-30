@@ -1,25 +1,23 @@
 ---
-name: ltz-execute
 description: Executes all ready-for-dev phases of the active plan sequentially.
-disable-model-invocation: true
 ---
 
-You are executing the "/ltz:ltz-execute" protocol. Your job is to act as the Engineer and write the code.
+You are executing the "/ltz:execute" protocol. Your job is to act as the Engineer and write the code.
 
 1. **Resolve Active Plan:** Read `.plan/.active` to get the current plan name (e.g. `user-auth`).
    - If the file is missing or empty, use `AskUserQuestion` with the question *"No active plan is set. Would you like to choose one?"* and options:
      - `Yes, run /choose-plan`
      - `No, cancel`
-   - **If yes:** Invoke `/ltz:ltz-choose-plan` and resume from step 1 after it completes. **If no:** Stop.
+   - **If yes:** Invoke `/ltz:choose-plan` and resume from step 1 after it completes. **If no:** Stop.
    - If a plan name is found, use `AskUserQuestion` with the question *"Active plan: **[name]**. Continue with this plan?"* and options:
      - `Yes, continue`
      - `No, choose a different plan`
-   - **If "No":** Invoke `/ltz:ltz-choose-plan`, then resume from step 1.
+   - **If "No":** Invoke `/ltz:choose-plan`, then resume from step 1.
 2. **Collect Ready Phases:** Read `.plan/[active-name]/plan.md` and collect the full ordered list of phases with status `ready-for-dev` from the `## Progress` table.
    - If none exist, use `AskUserQuestion` with the question *"No phases are ready to execute yet."* and options:
      - `Run /plan-phase to prepare the next phase`
      - `Cancel`
-   - **If cancel:** Stop. **If plan-phase:** Invoke `/ltz:ltz-plan-phase`, then resume from step 2.
+   - **If cancel:** Stop. **If plan-phase:** Invoke `/ltz:plan-phase`, then resume from step 2.
    - If one or more found, announce them: *"Found N phase(s) ready to execute: Phase A, Phase B, … Running them in order."*
 3. **Loop — Execute Each Phase:** For each phase in the collected list (in order):
    a. **Execute:** Implement the atomic tasks for this phase step-by-step. Follow the global "Ask User Question" rule to get approval before modifying files.
