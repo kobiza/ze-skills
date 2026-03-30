@@ -26,6 +26,17 @@ In Claude Code, run:
 /reload-plugins
 ```
 
+## Fresh reinstall
+
+If you want a clean reinstall (e.g. to pick up the latest version), the most reliable approach is to remove the marketplace first, then re-add and reinstall:
+
+```
+/plugin marketplace remove ze-skills
+/plugin marketplace add https://github.com/kobiza/ze-skills
+/plugin install ltz@ze-skills
+/reload-plugins
+```
+
 ## Local development
 
 To work on the plugin locally and test changes without publishing:
