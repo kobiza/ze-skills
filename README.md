@@ -8,7 +8,7 @@ A Claude Code plugin by [Kobi Zakut](https://github.com/kobiza) — structured p
 
 In Claude Code, run:
 ```
-/plugin marketplace add kobiza/ze-skills
+/plugin marketplace add https://github.com/kobiza/ze-skills
 ```
 
 **2. Install the plugin:**
