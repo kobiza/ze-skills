@@ -55,5 +55,5 @@ You are executing the "/ltz:update" protocol. Your job is to act as the Architec
 
    - **If `change`:** Ask for their feedback using `AskUserQuestion`, apply edits to `plan.md`, re-print, and ask again. Repeat until resolved.
    - **If `abort`:** Restore `plan.md` AND `progress.md` to their original contents (undo every change made during this run). Confirm *"Changes discarded."* and stop.
-   - **If `approve`:** Confirm *"Plan updated. Run `/ltz:go` to execute, or `/ltz:plan-phase` to detail the next phase."* and stop.
+   - **If `approve`:** Confirm *"Plan updated. Run `/ltz:go` to execute."* and stop.
    - **If `execute`:** Confirm *"Plan updated — starting first phase now."* then immediately run the plan-phase + execute flow for the first ready phase inline.

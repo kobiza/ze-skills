@@ -38,7 +38,7 @@ You are executing the "/ltz:plan-task" protocol. Your job is to act as both Anal
 
    - **If `change`:** Ask for their feedback using `AskUserQuestion`, apply edits to `plan.md`, re-print, and ask again. Repeat until resolved.
    - **If `abort`:** Confirm *"Task plan cancelled."* and stop (do not delete files).
-   - **If `approve`:** Overwrite `progress.md` with `Status: \`ready-for-dev\``. Confirm *"Plan saved. Run `/ltz:execute` when you're ready."* and stop.
+   - **If `approve`:** Overwrite `progress.md` with `Status: \`ready-for-dev\``. Confirm *"Plan saved. Run `/ltz:go` when you're ready."* and stop.
    - **If `execute`:** Overwrite `progress.md` with `Status: \`ready-for-dev\``. Confirm *"Plan approved — executing now."* then immediately proceed to step 7.
 
 7. **Execute:** Implement the atomic tasks step-by-step. Follow the global "Ask User Question" rule to get approval before modifying files.

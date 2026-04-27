@@ -18,7 +18,7 @@ You are executing the "/ltz:plan-phase" protocol. Your job is to act as the Syst
    - **If "No":** Invoke `/ltz:choose-plan`, then resume from step 1.
 2. **Locate the Plan:** Read `.plan/[active-name]/plan.md`, `.plan/[active-name]/progress.md`, and `.plan/[active-name]/findings.md` to refresh your context.
 3. **Identify Target:** Scan the status table in `progress.md` and find the first row with status `backlog`. Capture its 1-based row index as `N` — this is the phase number.
-   - If no `backlog` row exists, tell me: *"All phases are already planned. Run `/ltz:execute` to start the next ready phase."* and stop.
+   - If no `backlog` row exists, tell me: *"All phases are already planned. Run `/ltz:go` to start the next ready phase."* and stop.
 4. **Draft the Granular Plan (JIT):** Create a NEW file `.plan/[active-name]/phases/phase-N.md` containing the detailed implementation guide for THIS PHASE ONLY. Do NOT touch `plan.md`. The file MUST include:
    - **Acceptance Criteria:** 2-3 bullet points of what defines success.
    - **Atomic Tasks:** Break the work down into bite-sized (2-5 minute) steps.
@@ -30,5 +30,5 @@ You are executing the "/ltz:plan-phase" protocol. Your job is to act as the Syst
    - `change — I have feedback (follow up with details)`
 
    - **If `change`:** Ask for their feedback using `AskUserQuestion`, apply edits to `phases/phase-N.md` (NOT `plan.md`), re-print the summary, and ask again. Repeat until resolved.
-   - **If `approve`:** In `progress.md`, update the row for phase N from `backlog` to `ready-for-dev`. Do NOT modify `plan.md`. Then confirm *"Tasks approved. Run `/ltz:execute` to implement this phase."* and stop.
+   - **If `approve`:** In `progress.md`, update the row for phase N from `backlog` to `ready-for-dev`. Do NOT modify `plan.md`. Then confirm *"Tasks approved. Run `/ltz:go` to implement this phase."* and stop.
    - **If `execute`:** In `progress.md`, update the row for phase N from `backlog` to `ready-for-dev`. Do NOT modify `plan.md`. Then confirm *"Tasks approved — executing now."* and immediately proceed to implement the phase inline (follow the execute protocol: implement tasks, run verification, then in `progress.md` mark the row `done` with `[x]`).
