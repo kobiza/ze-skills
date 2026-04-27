@@ -4,9 +4,13 @@ description: Lists all existing plans with their progress, and lets you focus on
 
 You are executing the "/ltz:list" protocol.
 
+**Write ownership:** This skill is read-only. It never modifies `plan.md`, `progress.md`, or any other file inside a plan folder. It only updates `.plan/.active` when the user picks a new focus.
+
 1. **Scan Plans:** List all subdirectories inside `.plan/` — each one is a plan. If there are none, tell me: *"No plans found. Start one with `/ltz:plan` or `/ltz:go`."* Then stop.
 2. **Read Active:** Check `.plan/.active` to see which plan is currently focused (if any).
-3. **Show Progress:** For each plan folder, read its `plan.md` and count the rows in the `## Progress` table by status: `done`, `ready-for-dev`, `backlog`.
+3. **Show Progress:** For each plan folder, read its `progress.md`.
+   - **Feature plans** (status table format): count rows by status — `done`, `ready-for-dev`, `backlog`.
+   - **Task plans** (single `Status:` line): report the status directly (e.g. `done`, `ready-for-dev`, `backlog`).
 4. **Display Summary:** Print a table like this:
 
    ```

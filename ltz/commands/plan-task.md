@@ -15,16 +15,20 @@ You are executing the "/ltz:plan-task" protocol. Your job is to act as both Anal
 
 4. **Scaffold:** Create the following:
    - `.plan/[task-name]/` directory
-   - `.plan/[task-name]/plan.md` — the task plan (drafted in step 5)
+   - `.plan/[task-name]/plan.md` — the task plan (drafted in step 5). Only planning skills (`plan-task`, `update`) ever modify this again.
+   - `.plan/[task-name]/progress.md` — runtime state. Body: `Status: \`backlog\``. Updated by `execute` as work advances.
    - `.plan/[task-name]/findings.md` — scratchpad for errors and learnings (create with a heading and empty body)
    - Write the task name as a single line into `.plan/.active`
 
-5. **Draft the Task Plan:** Write the implementation guide into `.plan/[task-name]/plan.md`. It MUST include:
+   Note: task plans do NOT get a `phases/` directory — they are single-step.
+
+5. **Draft the Task Plan:** Write the implementation guide into `.plan/[task-name]/plan.md`. It MUST include — and ONLY include:
    - **Goal:** 1-2 sentences.
    - **Acceptance Criteria:** 2-3 bullet points defining success.
    - **Atomic Tasks:** Bite-sized (2-5 minute) steps. For each task, explicitly list the file paths to create or modify.
    - **Verification:** Exact terminal commands to confirm the task is complete.
-   - **Progress:** Append at the end: `## Progress\nStatus: \`backlog\``
+
+   `plan.md` must NOT contain a `## Progress` section. Status lives in `progress.md`.
 
 6. **Review Loop:** Print the full contents of `plan.md` inline. Then use `AskUserQuestion` with the question *"Does this plan look right?"* and options:
    - `approve — save and stop`
@@ -34,8 +38,8 @@ You are executing the "/ltz:plan-task" protocol. Your job is to act as both Anal
 
    - **If `change`:** Ask for their feedback using `AskUserQuestion`, apply edits to `plan.md`, re-print, and ask again. Repeat until resolved.
    - **If `abort`:** Confirm *"Task plan cancelled."* and stop (do not delete files).
-   - **If `approve`:** Update `## Progress` in `plan.md` to `Status: \`ready-for-dev\``. Confirm *"Plan saved. Run `/ltz:execute` when you're ready."* and stop.
-   - **If `execute`:** Update `## Progress` in `plan.md` to `Status: \`ready-for-dev\``. Confirm *"Plan approved — executing now."* then immediately proceed to step 7.
+   - **If `approve`:** Overwrite `progress.md` with `Status: \`ready-for-dev\``. Confirm *"Plan saved. Run `/ltz:execute` when you're ready."* and stop.
+   - **If `execute`:** Overwrite `progress.md` with `Status: \`ready-for-dev\``. Confirm *"Plan approved — executing now."* then immediately proceed to step 7.
 
 7. **Execute:** Implement the atomic tasks step-by-step. Follow the global "Ask User Question" rule to get approval before modifying files.
 
@@ -47,7 +51,7 @@ You are executing the "/ltz:plan-task" protocol. Your job is to act as both Anal
      - `Skip this task and continue`
      - `Abort the plan`
 
-9. **Verify & Complete:** Run the verification commands from the plan. If they pass, update `## Progress` in `plan.md` to `Status: \`done\``. Then append `**Status: Done ✓**` at the very end of the file.
+9. **Verify & Complete:** Run the verification commands from the plan. If they pass, overwrite `progress.md` with `Status: \`done\``. Do NOT modify `plan.md` — `plan.md` is owned only by planning skills.
 
 10. **Wrap Up:** Inform me the task is complete. Use `AskUserQuestion` with the question *"Task complete and verified. What would you like to do next?"* and options:
     - `Review the changes`

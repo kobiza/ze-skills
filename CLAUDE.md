@@ -43,20 +43,40 @@ Fine-grained commands (`/ltz:plan-feature`, `/ltz:plan-task`, `/ltz:plan-phase`,
 
 ```
 .plan/
-├── .active              ← name of the currently focused plan
+├── .active                  ← name of the currently focused plan
 └── <feature-name>/
-    ├── plan.md          ← roadmap with phase checklist; granular tasks appended JIT
-    └── findings.md      ← error log and learnings (3-strike protocol)
+    ├── plan.md              ← strategy: Goal, Scope, Phases (plain bullets, no checkboxes). Immutable after creation.
+    ├── progress.md          ← state: phase status table and `[ ]/[x]` markers. Mutable as work advances.
+    ├── findings.md          ← error log and learnings (3-strike protocol).
+    └── phases/
+        └── phase-N.md       ← per-phase tactics (atomic tasks, file paths, verification). Written JIT.
 ```
+
+Task plans (single-step) omit the `phases/` directory; their `progress.md` is just `Status: <state>`.
+
+### Write ownership
+
+`plan.md` must only be modified by the planning skills listed below — execution skills never touch it. This keeps the strategic spec stable across iterations.
+
+| Skill            | Writes                                                          | Reads                                       |
+|------------------|-----------------------------------------------------------------|---------------------------------------------|
+| `plan` (router)  | (delegates only)                                                | —                                           |
+| `plan-feature`   | `plan.md`, `progress.md`, `findings.md`, `phases/` (creates)    | —                                           |
+| `plan-task`      | `plan.md`, `progress.md`, `findings.md` (creates)               | —                                           |
+| `update`         | `plan.md`, `progress.md`                                        | `plan.md`, `progress.md`, `findings.md`     |
+| `plan-phase`     | `phases/phase-N.md` (creates), `progress.md` (updates)          | `plan.md`, `progress.md`, `findings.md`     |
+| `execute`        | `progress.md` (updates), `findings.md` (appends)                | `plan.md`, `progress.md`, `phases/*`        |
+| `list`, `choose-plan`, `go` | —                                                    | `plan.md`, `progress.md`                    |
+| `cleanup`        | deletes the plan folder                                         | `.active`                                   |
 
 Key behaviors:
 - `/ltz:plan`: auto-detects task vs feature, scaffolds `.plan/<name>/`, drafts plan — then pauses for human review.
 - `/ltz:go`: drives active plan to completion via plan-phase → execute loop with review gates.
 - `/ltz:update`: re-analyzes active plan with changed requirements, preserving completed work.
-- `/ltz:list`: scans `.plan/`, shows progress table, lets user switch active plan.
+- `/ltz:list`: scans `.plan/`, reads each plan's `progress.md` for status, lets user switch active plan.
 - `/ltz:cleanup`: deletes a plan folder, clears `.plan/.active` if needed.
-- `/ltz:plan-phase`: reads active plan, finds first unchecked `[ ]` phase, appends granular atomic tasks + verification commands JIT — then pauses.
-- `/ltz:execute`: implements tasks step by step; on 3 identical errors, stops and logs to `findings.md`; marks phase `[x]` on success.
+- `/ltz:plan-phase`: reads active plan, finds first `backlog` phase in `progress.md`, writes granular atomic tasks + verification commands to `phases/phase-N.md` JIT — then pauses.
+- `/ltz:execute`: reads tasks from `phases/phase-N.md`, implements step by step; on 3 identical errors, stops and logs to `findings.md`; on success, updates only `progress.md` (status → `done`, checkbox → `[x]`).
 
 ## Adding or modifying commands
 

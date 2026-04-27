@@ -4,6 +4,8 @@ description: Continues the active plan to completion — assesses current state,
 
 You are executing the "/ltz:go" protocol. Your job is to drive an existing plan to completion by delegating to existing skills. Do NOT create new plans or duplicate planning/execution logic.
 
+**Write ownership:** `/ltz:go` itself does not write to `plan.md` — it only orchestrates other skills. For task plans, it writes status to `progress.md` directly. For feature plans, it delegates all phase-file and progress-file writes to `plan-phase` and `execute`.
+
 ## Step 1 — Resolve Active Plan
 
 Read `.plan/.active` to get the current plan name.
@@ -18,16 +20,16 @@ Read `.plan/.active` to get the current plan name.
 
 ## Step 2 — Assess State
 
-Read `.plan/[active-name]/plan.md` and `.plan/[active-name]/findings.md` to understand the current state.
+Read `.plan/[active-name]/plan.md`, `.plan/[active-name]/progress.md`, and `.plan/[active-name]/findings.md` to understand the current state.
 
-Determine the plan type and announce the status:
+Determine the plan type from the structure of `progress.md` and announce the status:
 
-**If task plan** (has `Status:` line, not a phase table):
+**If task plan** (`progress.md` contains a single `Status:` line, no table):
 - If Status is `done` → *"This task is already complete."* Stop.
-- If Status is `backlog` → Announce *"Task is planned but not yet started. Starting execution."* Update Status to `ready-for-dev`, then go to Step 3.
+- If Status is `backlog` → Announce *"Task is planned but not yet started. Starting execution."* Overwrite `progress.md` with `Status: \`ready-for-dev\``, then go to Step 3.
 - If Status is `ready-for-dev` → Announce *"Task is ready. Resuming execution."* Go to Step 3.
 
-**If feature plan** (has `## Progress` table):
+**If feature plan** (`progress.md` contains a status table):
 - If all phases are `done` → *"All phases are complete. Nothing left to do."* Stop.
 - Count and announce: *"Plan has N phases: X done, Y remaining."*
 - Go to Step 3.
@@ -44,7 +46,7 @@ Loop over each phase that is NOT `done`, in order:
    - If the user chooses `execute` in plan-phase's review loop, it executes the phase inline and marks it done. Continue to the next phase.
    - If the user chooses `approve`, the phase becomes `ready-for-dev`. Continue to step 2 below.
 2. **If the phase is `ready-for-dev`:** Invoke `/ltz:execute` — it runs all ready-for-dev phases, marks them done.
-3. After execution completes, re-read `plan.md` to check remaining phases.
+3. After execution completes, re-read `progress.md` to check remaining phases.
    - If more non-done phases exist → Announce *"Phase complete ✓ — continuing to next phase."* Loop back to step 1.
    - If all phases are `done` → Go to Step 4.
 
