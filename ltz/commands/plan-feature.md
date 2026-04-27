@@ -44,6 +44,6 @@ You are executing the "/ltz:plan-feature" protocol. Your job is to act as the Ar
    - `abort — cancel`
 
    - **If `change`:** Ask for their feedback using `AskUserQuestion`, apply the edits to `plan.md`, re-print the updated roadmap, and ask again. Repeat until resolved.
-   - **If `approve`:** Confirm *"Roadmap approved. Run `/ltz:plan-phase` to detail the first phase, or `/ltz:execute` to start immediately."* and stop.
+   - **If `approve`:** Confirm *"Roadmap approved. Run `/ltz:go` to start executing."* and stop.
    - **If `execute`:** Confirm *"Roadmap approved — starting first phase now."* then immediately run the plan-phase + execute flow for the first phase inline.
    - **If `abort`:** Confirm *"Plan creation cancelled."* and stop (do not delete any files).

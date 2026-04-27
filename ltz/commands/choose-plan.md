@@ -7,7 +7,7 @@ You are executing the "/ltz:choose-plan" protocol. Your job is to let the user p
 
 **Write ownership:** This skill is read-only. It never modifies `plan.md`, `progress.md`, or any other file inside a plan folder. It only updates `.plan/.active`.
 
-1. **Scan Plans:** List all subdirectories inside `.plan/` — each one is a plan. If there are none, tell me: *"No plans found. Start one with `/ltz:plan-task` (small task) or `/ltz:plan-feature` (multi-phase feature)."* Then stop.
+1. **Scan Plans:** List all subdirectories inside `.plan/` — each one is a plan. If there are none, tell me: *"No plans found. Start one with `/ltz:plan`."* Then stop.
 2. **Read Active:** Check `.plan/.active` to see which plan is currently focused (if any).
 3. **Show Progress:** For each plan folder, read its `progress.md`.
    - **Feature plans** (status table format): count rows by status — `done`, `ready-for-dev`, `backlog`.
