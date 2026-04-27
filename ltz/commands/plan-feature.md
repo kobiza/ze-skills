@@ -11,28 +11,33 @@ You are executing the "/ltz:plan-feature" protocol. Your job is to act as the Ar
 
 2. **Analyze Context:** Briefly scan the project's `README.md` or package files to identify the tech stack, testing framework, and architectural constraints.
 3. **Generate Filename:** Extract the core keywords from my feature request and convert them to kebab-case (e.g., `user-auth`, `shopping-cart`).
-4. **Scaffold:** Create a `.plan/[feature-name]/` directory (e.g. `.plan/user-auth/`). This folder will hold all files for this plan.
-5. **Create Files:** Inside the folder, create two files:
-   - `.plan/[feature-name]/plan.md` (The Main Roadmap)
-   - `.plan/[feature-name]/findings.md` (The Scratchpad for errors and learnings)
+4. **Scaffold:** Create a `.plan/[feature-name]/` directory (e.g. `.plan/user-auth/`) and an empty `phases/` subdirectory inside it. This folder will hold all files for this plan.
+5. **Create Files:** Inside the folder, create:
+   - `.plan/[feature-name]/plan.md` — strategic roadmap (drafted in step 7). Only planning skills (`plan-feature`, `plan-task`, `update`) ever modify this file again.
+   - `.plan/[feature-name]/progress.md` — runtime state (drafted in step 7). Updated by `plan-phase` and `execute` as work advances.
+   - `.plan/[feature-name]/findings.md` — scratchpad for errors and learnings.
+   - `.plan/[feature-name]/phases/` — empty directory; `plan-phase` will populate it with `phase-N.md` files JIT.
 6. **Set Active Plan:** Write the feature name (e.g. `user-auth`) as a single line into `.plan/.active`. This marks it as the current focused plan.
-7. **Draft the Roadmap:** Inside `plan.md`, write the high-level architecture. Use the answers from the clarification interview (if one occurred) to inform the Goal statement, Scope bullets, and phase priorities. It MUST strictly include:
+7. **Draft the Roadmap:** Inside `plan.md`, write the high-level architecture. Use the answers from the clarification interview (if one occurred) to inform the Goal statement, Scope bullets, and phase priorities. `plan.md` MUST strictly include — and ONLY include:
    - **Goal:** 1-2 sentences describing what this builds.
    - **Scope:** Bullet points for what is "In Scope" and what is explicitly "Out of Scope".
-   - **Phases:** A markdown checklist (`[ ]`) of logical phases. For each phase, include its MoSCoW priority (Must/Should/Could Have) and any dependencies.
-   - **Progress:** After the Phases checklist, append a `## Progress` table with one row per phase, all starting as `backlog`:
-     ```markdown
-     ## Progress
-     | Phase | Status |
-     |-------|--------|
-     | Phase 1 — [name] | `backlog` |
-     | Phase 2 — [name] | `backlog` |
-     ```
+   - **Phases:** A plain bulleted list (no `[ ]` checkboxes — those are tracked in `progress.md`). For each phase, include its MoSCoW priority (Must/Should/Could Have) and any dependencies.
+
+   Then, in the SEPARATE file `progress.md`, write a status table with one row per phase, all starting as `backlog` and `[ ]`:
+   ```markdown
+   # Progress — [Feature Name]
+
+   | Phase | Status | Done |
+   |-------|--------|------|
+   | Phase 1 — [name] | `backlog` | [ ] |
+   | Phase 2 — [name] | `backlog` | [ ] |
+   ```
+   `plan.md` must NOT contain a `## Progress` section. State lives in `progress.md`.
 8. **Constraint:** Keep the phases high-level. Do NOT write the granular technical implementation details yet. When deciding how many phases to create:
    - Phases are user-verifiable checkpoints, not structural formality — don't add them just to have structure.
    - A single-phase plan is valid and often preferable for small or cohesive requests.
    - Only split into multiple phases when the user could meaningfully demo, test, or review the output of each phase before the next begins. If the work would feel incomplete or unverifiable mid-way, keep it as one phase.
-9. **Review Loop:** Print the full contents of `plan.md` inline in the terminal. Then use `AskUserQuestion` with the question *"Does this roadmap look correct?"* and options:
+9. **Review Loop:** Print the full contents of `plan.md` inline in the terminal. Note briefly that `progress.md` was also created with all phases as `backlog`. Then use `AskUserQuestion` with the question *"Does this roadmap look correct?"* and options:
    - `approve — save and stop`
    - `execute — save and start first phase now`
    - `change — I have feedback (follow up with details)`
